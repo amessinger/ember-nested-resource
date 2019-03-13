@@ -21,7 +21,8 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `ember serve`
+* `yarn run json-server --watch mock/db.json --routes mock/routes.json`
+* `ember serve --proxy http://localhost:300`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 * Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
 
@@ -31,8 +32,9 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Running Tests
 
-* `ember test`
-* `ember test --server`
+* `yarn run json-server --watch mock/db.json --routes mock/routes.json`
+* `ember test --proxy http://localhost:300`
+* `ember test --server --proxy http://localhost:300`
 
 ### Linting
 
