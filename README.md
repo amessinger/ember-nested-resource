@@ -1,8 +1,8 @@
-# nested-resources
+# nested-resources (AKA sub-resources)
 
 ## TL;DR
 
-This test application implements and showcases *a* solution for handling REST nested resources.
+This test application implements and showcases *a* solution for handling REST nested resources (AKA sub-resources).
 
 > `/resource/:id/sub_resource`
 
