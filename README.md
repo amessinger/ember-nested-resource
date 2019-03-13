@@ -1,7 +1,125 @@
 # nested-resources
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+## TL;DR
+
+This test application implements and showcases *a* solution for REST nested resources.
+
+It does so with an [adapter mixin](./app/mixins/sub-resource-adapter.js) overriding the `buildURL()` method.
+
+## Proposed API
+
+> Make your sub resource's adapter extend the mixin.
+
+[`app/adapters/comment.js`](./app/adapters/comment.js):
+```js
+[...]
+import SubResourceAdapterMixin from '../mixins/sub-resource-adapter';
+
+export default ApplicationAdapter.extend(SubResourceAdapterMixin, {
+  [...]
+});
+```
+
+> When using the adapter to query the backend, make sure to provide the `parentResource`.
+
+[`app/routes/posts/detail/comments.js`](./app/routes/posts/detail/comments.js):
+```js
+[...]
+model() {
+  let post = this.modelFor('posts.detail');
+  return this.store.findAll('comment', { adapterOptions: { parentResource: post } });
+}
+[...]
+```
+
+[`app/routes/posts/detail/comments/detail.js`](./app/routes/posts/detail/comments/detail.js):
+```js
+[...]
+model({ comment_id }) {
+  let post = this.modelFor('posts.detail');
+  return this.store.findRecord('comment', comment_id, { adapterOptions: { parentResource: post } });
+}
+[...]
+```
+
+## Example Use Case
+
+Nested resources are available under the path of a parent resource.
+
+Let's consider the infamous blog example:
+- a blog is a collection of `post`s
+- a `post` has `comment`s
+- a `comment` has only one `post`
+
+A `comment` *only* exists within the context of a `post` (well, at least in our dummy blog).
+
+There is the resulting REST API contract:
+
+`GET http://localhost:3000/posts`:
+```json
+[
+  {
+    "id": 1,
+    "title": "Post Title",
+    "content": "Post content"
+  }
+]
+```
+
+`GET http://localhost:3000/posts/1`:
+```json
+{
+  "id": 1,
+  "title": "Post Title",
+  "content": "Post content"
+}
+```
+
+`GET http://localhost:3000/posts/1/comments`:
+```json
+[
+  {
+    "id": 1,
+    "content": "Comment content"
+  }
+]
+```
+
+`GET http://localhost:3000/posts/1/comments/1`:
+```json
+{
+  "id": 1,
+  "content": "Comment content"
+}
+```
+
+## Problem & Proposed Solution
+
+> The hard task is to be able to retrieve the `comment` nested-resource.
+
+`app/routes/posts/details/comments.js`:
+```js
+[...]
+model() {
+  return this.store.findAll('comment'); // this won't work, since we need the `post` parent resource to build the URL
+}
+[...]
+```
+
+> The proposed solution overrides the adapter's `buildURL()` method to build the sub-resource URL using the parent resource URL and the sub-resource `pathForType`. Refer to the [implementation](./app/mixins/sub-resource-adapter.js) for more details.
+
+By providing a reference to the parent resource, we are now able to build our sub-resource URL.
+
+[`app/routes/posts/detail/comments.js`](./app/routes/posts/detail/comments.js):
+```js
+[...]
+model() {
+  let post = this.modelFor('posts.detail');
+  return this.store.findAll('comment', { adapterOptions: { parentResource: post } });
+}
+[...]
+```
+
 
 ## Prerequisites
 
