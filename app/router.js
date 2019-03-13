@@ -8,7 +8,9 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('posts', function() {
-    this.route('detail', { path: '/:post_id' });
+    this.route('detail', { path: '/:post_id' }, function() {
+      this.route('comments');
+    });
   });
 });
 
