@@ -10,7 +10,7 @@
     {
       "id": 1,
       "content": "some comment",
-      "postId": 1
+      "post_id": 1
     }
   ]
 }
