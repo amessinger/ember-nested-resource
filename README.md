@@ -2,13 +2,13 @@
 
 ## TL;DR
 
-This test application implements and showcases *a* solution for REST nested resources.
+This test application implements and showcases *a* solution for handling REST nested resources.
 
 It does so with an [adapter mixin](./app/mixins/sub-resource-adapter.js) overriding the `buildURL()` method.
 
 ## Proposed API
 
-> Make your sub resource's adapter extend the mixin.
+> Make your sub-resource's adapter extends the mixin.
 
 In the sub-resource's adapter ([see example](./app/adapters/comment.js)):
 ```js
