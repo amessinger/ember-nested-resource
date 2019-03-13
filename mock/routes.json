@@ -1,3 +1,4 @@
 {
-  "/posts/:id/comments": "/comments"
+  "/posts/:post_id/comments": "/comments",
+  "/posts/:post_id/comments/:comment_id": "/comments/:comment_id"
 }

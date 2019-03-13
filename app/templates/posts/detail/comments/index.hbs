@@ -1,0 +1,9 @@
+<h3>Comments listing</h3>
+
+<ol>
+  {{#each model as |item|}}
+    <li>{{link-to item.content "posts.detail.comments.detail" item}}</li>
+  {{/each}}
+</ol>
+
+{{outlet}}
