@@ -10,7 +10,7 @@ It does so with an [adapter mixin](./app/mixins/sub-resource-adapter.js) overrid
 
 > Make your sub resource's adapter extend the mixin.
 
-[`app/adapters/comment.js`](./app/adapters/comment.js):
+In the sub-resource's adapter ([see example](./app/adapters/comment.js)):
 ```js
 [...]
 import SubResourceAdapterMixin from '../mixins/sub-resource-adapter';
@@ -22,22 +22,22 @@ export default ApplicationAdapter.extend(SubResourceAdapterMixin, {
 
 > When using the adapter to query the backend, make sure to provide the `parentResource`.
 
-[`app/routes/posts/detail/comments.js`](./app/routes/posts/detail/comments.js):
+In a route fetching the index of the sub-resource ([see example](./app/routes/posts/detail/comments.js)):
 ```js
 [...]
 model() {
-  let post = this.modelFor('posts.detail');
-  return this.store.findAll('comment', { adapterOptions: { parentResource: post } });
+  let parentResource = this.modelFor('parent-route');
+  return this.store.findAll('sub-resource', { adapterOptions: { parentResource } });
 }
 [...]
 ```
 
-[`app/routes/posts/detail/comments/detail.js`](./app/routes/posts/detail/comments/detail.js):
+In a route fetching a single item of the sub-resource ([see example](./app/routes/posts/detail/comments/detail.js)):
 ```js
 [...]
-model({ comment_id }) {
-  let post = this.modelFor('posts.detail');
-  return this.store.findRecord('comment', comment_id, { adapterOptions: { parentResource: post } });
+model({ id }) {
+  let parentResource = this.modelFor('parent-route');
+  return this.store.findRecord('sub-resource', id, { adapterOptions: { parentResource } });
 }
 [...]
 ```
