@@ -4,6 +4,8 @@
 
 This test application implements and showcases *a* solution for handling REST nested resources.
 
+> `/resource/:id/sub_resource`
+
 It does so with an [adapter mixin](./app/mixins/sub-resource-adapter.js) overriding the `buildURL()` method.
 
 ## Proposed API
