@@ -6,21 +6,9 @@ This test application implements and showcases *a* solution for handling REST ne
 
 > `/resource/:id/sub_resource`
 
-It does so with an [adapter mixin](./app/mixins/sub-resource-adapter.js) overriding the `buildURL()` method.
+It does so with an [application adapter](./app/adapters/application.js) overriding the `buildURL()` method.
 
 ## Proposed API
-
-> Make your sub-resource's adapter extends the mixin.
-
-In the sub-resource's adapter ([see example](./app/adapters/comment.js)):
-```js
-[...]
-import SubResourceAdapterMixin from '../mixins/sub-resource-adapter';
-
-export default ApplicationAdapter.extend(SubResourceAdapterMixin, {
-  [...]
-});
-```
 
 > When using the adapter to query the backend, make sure to provide the `parentResource`.
 
@@ -29,7 +17,7 @@ In a route fetching the index of the sub-resource ([see example](./app/routes/po
 [...]
 model() {
   let parentResource = this.modelFor('parent-route');
-  return this.store.findAll('sub-resource', { adapterOptions: { parentResource } });
+  return this.store.findSubAll(parentResource, 'sub-resource');
 }
 [...]
 ```
@@ -39,7 +27,7 @@ In a route fetching a single item of the sub-resource ([see example](./app/route
 [...]
 model({ id }) {
   let parentResource = this.modelFor('parent-route');
-  return this.store.findRecord('sub-resource', id, { adapterOptions: { parentResource } });
+  return this.store.findSubRecord(parentResource, 'sub-resource', id);
 }
 [...]
 ```
@@ -117,7 +105,7 @@ By providing a reference to the parent resource, we are now able to build our su
 [...]
 model() {
   let post = this.modelFor('posts.detail');
-  return this.store.findAll('comment', { adapterOptions: { parentResource: post } });
+  return this.store.findSubAll(post, 'comment');
 }
 [...]
 ```

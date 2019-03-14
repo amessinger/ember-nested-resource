@@ -1,17 +1,15 @@
-import DS from 'ember-data';
+import DS from "ember-data";
+import { set } from '@ember/object';
 
+const { Store } = DS;
 
-export default DS.Store.extend({
-  findSubRecord(parentResource, resourceName, resourceId, options) {
-    options = options || {};
-    options.adapterOptions = options.adapterOptions || {};
-    Object.assign(options.adapterOptions, { parentResource });
-    return this.findRecord(resourceName, resourceId, options);
+export default Store.extend({
+  findSubAll(parentResource, modelName, options = {}) {
+    set(options, 'parentResource', parentResource);
+    return this.findAll(modelName, options);
   },
-  findSubAll(parentResource, resourceName, options) {
-    options = options || {};
-    options.adapterOptions = options.adapterOptions || {};
-    Object.assign(options.adapterOptions, { parentResource });
-    return this.findAll(resourceName, options);
+  findSubRecord(parentResource, modelName, id, options = {}) {
+    set(options, 'parentResource', parentResource);
+    return this.findRecord(modelName, id, options);
   }
 });

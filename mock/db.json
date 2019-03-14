@@ -11,6 +11,11 @@
       "id": 1,
       "content": "some comment",
       "post_id": 1
+    },
+    {
+      "id": 2,
+      "content": "some comment#",
+      "post_id": 2
     }
   ]
 }
